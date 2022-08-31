@@ -10,7 +10,7 @@ metadata:
   name: appdynamics-infraviz
   namespace: appdynamics
 spec:
-  controllerUrl: "http://<appdynamics-controller-host>:8080"
-  image: "<your-docker-registry>/appdynamics/machine-agent:latest"
-  account: "<account-name>"
+  controllerUrl: "https://aksorn-pov.saas.appdynamics.com:443"
+  image: "docker.io/appdynamics/machine-agent:latest"
+  account: "aksorn-pov"
   enableContainerHostId: true
