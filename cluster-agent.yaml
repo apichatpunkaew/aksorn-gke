@@ -1,0 +1,26 @@
+apiVersion: cluster.appdynamics.com/v1alpha1
+kind: Clusteragent
+metadata:
+  name: k8s-cluster-agent
+  namespace: appdynamics
+spec:
+  logLevel: "DEBUG"
+  appName: "K8S-Cluster"
+  controllerUrl: "https://aksorn-pov.saas.appdynamics.com"
+  account: "aksorn-pov"
+  image: "docker.io/appdynamics/cluster-agent:22.7.0"
+  serviceAccountName: appdynamics-cluster-agent
+  nsToMonitorRegex: aksorn-pro
+  defaultCustomConfig: -Dappdynamics.agent.uniqueHostId=$(sed -rn '1s#.*/##; 1s/docker-(.{12}).*/\1/p' /proc/self/cgroup) 
+  instrumentationMethod: Env
+  nsToInstrumentRegex: aksorn-pro
+  defaultAppName: AKSORN-API
+  instrumentationRules:
+    - namespaceRegex: aksorn-pro
+      language: nodejs
+      instrumentContainer: select
+      containerMatchString: .*
+      imageInfo:
+        image: "docker.io/appdynamics/nodejs-agent:22.7.0-16-alpine"
+        imagePullPolicy: Always
+        agentMountPath: /opt/appdynamics
